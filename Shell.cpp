@@ -12,28 +12,21 @@ void read_command(char cmd[], char *par[]){
     for (;;){
         int c = fgetc(stdin);
         line[count++] = (char) c;
-        if (c == '\n'){
-            break;
+        if (c == '\n') break;
         }
-    }
+        if (count == 1) return;
+        pch = strtok(line, " \n");
 
-    if (count == 1){
-        return;
-    }
+        //Parse the line into words
+        while (pch != NULL){
+            array[i++] = strdup(pch);
+            pch = strtok(NULL, " \n");
+        }
+          strcpy(cmd, array[0]);
 
-    pch = strtok(line, " \n");
-
-    while (pch != NULL){
-        array[i++] = strdup(pch);
-        pch = strtok(NULL, " \n");
-    }
-
-    strcpy(cmd, array[0]);
-
-    for(int j = 0; j < i; j++){
-        par[j] = array[j];
-    }
-    par[i] = NULL;
+        for(int j = 0; j < i; j++)
+              par[j] = array[j];
+              par[i] = NULL;
 }
 
 void type_prompt(){
@@ -59,7 +52,7 @@ int main(){
         else{
             strcpy(cmd, "/bin/");
             strcat(cmd, command);
-            execve(cmd, parameters, 0);
+            execve(cmd, parameters, envp);
         }
 
         if (strcmp (command, "exit") == 0){
