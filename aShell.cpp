@@ -49,7 +49,7 @@ int main(){
     while(1){
         type_prompt();
         read_command(command, parameters);
-        if(fork != 0){
+        if(fork() != 0){
             wait(NULL);
         }
         else{
