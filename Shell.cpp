@@ -9,24 +9,24 @@ void read_command(char cmd[], char *par[]){
     int count = 0, i = 0, j = 0;
     char *array[100], *pch;
 
-    for (;;){
+    for ( ;; ){
         int c = fgetc(stdin);
         line[count++] = (char) c;
         if (c == '\n') break;
         }
-        if (count == 1) return;
-        pch = strtok(line, " \n");
+    if (count == 1) return;
+    pch = strtok(line, " \n");
 
-        //Parse the line into words
-        while (pch != NULL){
-            array[i++] = strdup(pch);
-            pch = strtok(NULL, " \n");
-        }
-          strcpy(cmd, array[0]);
+    //Parse the line into words
+    while (pch != NULL){
+        array[i++] = strdup(pch);
+        pch = strtok(NULL, " \n");
+    }
+    strcpy(cmd, array[0]);
 
-        for(int j = 0; j < i; j++)
-              par[j] = array[j];
-              par[i] = NULL;
+    for(int j = 0; j < i; j++)
+        par[j] = array[j];
+    par[i] = NULL;
 }
 
 void type_prompt(){
@@ -46,7 +46,7 @@ int main(){
     while(1){
         type_prompt();
         read_command(command, parameters);
-        if(fork != 0){
+        if(fork() != 0){
             wait(NULL);
         }
         else{
