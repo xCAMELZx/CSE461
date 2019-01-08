@@ -11,7 +11,7 @@ char buf[512];
     printf(1, "Need 2 Arguements!\n");
     exit();
     }
-
+for (int i =2; i<=argc; i++){
   if((fd0 = open(argv[1], O_RDONLY))<0) {
       printf(1, "cp: Cannot Open %s\n", argv[1]);
       exit();
@@ -25,6 +25,6 @@ char buf[512];
   }
   close(fd0);
   close(fd1);
-
+}
 exit();
   }
