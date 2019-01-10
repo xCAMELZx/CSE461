@@ -1,7 +1,7 @@
 /*Yousef Jarrar - Jose Perez
 Dr. Tong Yu
 Part 1 - Writing a Simple Shell
-Lab 1 
+Lab 1
 */
 #include <stdio.h>
 #include <stdlib.h>
