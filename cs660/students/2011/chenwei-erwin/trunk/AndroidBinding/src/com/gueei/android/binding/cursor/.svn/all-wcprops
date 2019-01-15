@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/96/trunk/AndroidBinding/src/com/gueei/android/binding/cursor
+END
+IdField.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/59/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/IdField.java
+END
+IntegerField.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/85/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/IntegerField.java
+END
+CursorField.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/85/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/CursorField.java
+END
+BlobField.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/85/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/BlobField.java
+END
+LongField.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/!svn/ver/85/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/LongField.java
+END
+CursorRowTypeMap.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/94/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/CursorRowTypeMap.java
+END
+CursorRowModel.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/!svn/ver/94/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/CursorRowModel.java
+END
+FloatField.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/85/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/FloatField.java
+END
+StringField.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/!svn/ver/85/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/StringField.java
+END
+CursorSource.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/!svn/ver/94/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/CursorSource.java
+END
+CursorAdapter.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svn/!svn/ver/96/trunk/AndroidBinding/src/com/gueei/android/binding/cursor/CursorAdapter.java
+END

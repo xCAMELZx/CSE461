@@ -1,0 +1,21 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <com.f.solarsystem.MySurfaceView
+        android:id="@+id/mySurfaceView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        
+    </com.f.solarsystem.MySurfaceView>
+    
+    <com.f.solarsystem.Rocker
+        android:id="@+id/rocker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        
+    </com.f.solarsystem.Rocker>
+
+
+</FrameLayout>

@@ -1,0 +1,24 @@
+ 1007  mkdir rmi
+ 1008  cd rmi
+ 1009  mkdir demo
+ 1010  cd demo
+ 1011  wget http://docs.oracle.com/javase/1.5.0/docs/guide/rmi/hello/Hello.java
+ 1012  ls
+ 1013  wget http://docs.oracle.com/javase/1.5.0/docs/guide/rmi/hello/Server.java
+ 1014  wget http://docs.oracle.com/javase/1.5.0/docs/guide/rmi/hello/Client.java
+ 1015  ls
+ 1016  vi Client.java 
+ 1017  vi Hello.java 
+ 1018  vi Server.java 
+ 1019  javac *.java
+ 1020  ls
+ 1021  whereis rmiregistry
+ 1022  locate rmiregistry | grep bin
+ 1023  /usr/java/jdk1.8.0_05/bin/rmiregistry &
+ 1024  ps axuw | grep rmi
+ 1025  java -classpath . Server &
+ 1026  java -classpath . Client 
+ 1027  ifconfig
+ 1028  hostname
+ 1029  history
+ 1030  history | tail -n 40 > hist4-23-14.txt

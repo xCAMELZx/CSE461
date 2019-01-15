@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/96/trunk/AndroidBinding/src/com/gueei/android/binding/observables
+END
+ArraySource.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/!svn/ver/96/trunk/AndroidBinding/src/com/gueei/android/binding/observables/ArraySource.java
+END
+IntegerObservable.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/94/trunk/AndroidBinding/src/com/gueei/android/binding/observables/IntegerObservable.java
+END
+LongObservable.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svn/!svn/ver/94/trunk/AndroidBinding/src/com/gueei/android/binding/observables/LongObservable.java
+END
+BooleanObservable.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/!svn/ver/94/trunk/AndroidBinding/src/com/gueei/android/binding/observables/BooleanObservable.java
+END
+StringObservable.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/94/trunk/AndroidBinding/src/com/gueei/android/binding/observables/StringObservable.java
+END
