@@ -1,4 +1,4 @@
-#include "type.s"
+#include "types.h"
 #include "stat.h"
 #include "user.h"
 #include "fcntl.h"
@@ -31,6 +31,7 @@ for (int i =2; i<=argc; i++){
   }
   close(fd0);
   close(fd1);
+  close(fd2);
 }
 exit();
   }
