@@ -1,4 +1,15 @@
-// C++ program for B-Tree insertion 
+/* Yousef Jarrar, Jose Perez
+Lab 2 - bTrees and remove Function (nonleaf nodes)
+We are to implement the remove() function and to test it against the
+paragraph provided to use from Lab 2.
+
+The outputs of the data, are to be similar to that of Lab 2.
+Comments have been added to keep track of what is being done.
+
+*/
+
+
+// C++ program for B-Tree insertion
 // For simplicity, assume order m = 2 * t
 #include <iostream>
 #include <string>
@@ -42,14 +53,14 @@ private:
     // Removes key k from the sub-tree rooted at this node
     void remove ( keyType k );
 
-    // Returns the index of the first key that is >= k 
+    // Returns the index of the first key that is >= k
     int findKey( keyType k );
 
     // Promotes key from C[index - 1] to C[index]
     void promoteFromPrev(int index);
-    
+
     // Promotes key from C[index + 1] to C[index]
-    void promoteFromNext(int index); 
+    void promoteFromNext(int index);
 
 public:
     Node(int _t, bool _isLeaf);   // Constructor
@@ -430,17 +441,17 @@ void Node<keyType>::fill (int index)
     return;
 }
 
-// Returns the index of the first key that is >= k 
+// Returns the index of the first key that is >= k
 template<class keyType>
-int Node<keyType>::findKey(keyType k) 
-{ 
-    int index = 0; 
-    while (index < nKeys && keys[index] < k) 
+int Node<keyType>::findKey(keyType k)
+{
+    int index = 0;
+    while (index < nKeys && keys[index] < k)
     {
-        ++index; 
+        ++index;
     }
-    return index; 
-} 
+    return index;
+}
 
 // Removes key k from the sub-tree rooted at this node
 template<class keyType>
@@ -506,76 +517,76 @@ void BTree<keyType>::remove(keyType k)
 
 // Promotes key from C[index-1] to C[index]
 template<class keyType>
-void Node<keyType>::promoteFromPrev(int index) 
-{ 
-  
-    Node<keyType> *destination = C[index]; 
-    Node<keyType> *source = C[index - 1]; 
-  
+void Node<keyType>::promoteFromPrev(int index)
+{
+
+    Node<keyType> *destination = C[index];
+    Node<keyType> *source = C[index - 1];
+
     // Greatest key from C[index - 1] goes to parent
     // key[index - 1] from parent goes as first to C[index]
-  
+
     // Moving all keys in C[index] one step forward
-    for (int i = destination->nKeys - 1; i >= 0; --i) 
-        destination->keys[i + 1] = destination->keys[i]; 
-  
+    for (int i = destination->nKeys - 1; i >= 0; --i)
+        destination->keys[i + 1] = destination->keys[i];
+
     // If C[index] is not a leaf, move all its children one step forward
-    if (!destination->isLeaf) 
-    { 
-        for (int i = destination->nKeys; i >= 0; --i) 
-            destination->C[i + 1] = destination->C[i]; 
-    } 
-  
+    if (!destination->isLeaf)
+    {
+        for (int i = destination->nKeys; i >= 0; --i)
+            destination->C[i + 1] = destination->C[i];
+    }
+
     // Set C[index] first key to key[index - 1]
-    destination->keys[0] = keys[index - 1]; 
-  
+    destination->keys[0] = keys[index - 1];
+
     // Set C[index] first child to last child of C[index - 1]
-    if(!destination->isLeaf) 
-        destination->C[0] = source->C[source->nKeys]; 
-  
+    if(!destination->isLeaf)
+        destination->C[0] = source->C[source->nKeys];
+
     // Move the greatest key from C[index - 1] to the parent
-    keys[index - 1] = source->keys[source->nKeys - 1]; 
-  
+    keys[index - 1] = source->keys[source->nKeys - 1];
+
     // Update key counts
-    destination->nKeys++; 
-    source->nKeys--; 
-} 
-  
+    destination->nKeys++;
+    source->nKeys--;
+}
+
 // Promotes key from C[index + 1] to C[index]
 template<class keyType>
-void Node<keyType>::promoteFromNext(int index) 
-{ 
-  
-    Node<keyType> *destination = C[index]; 
-    Node<keyType> *source = C[index + 1]; 
-  
-    // keys[index] is inserted as the last key in C[index] 
-    destination->keys[destination->nKeys] = keys[index]; 
-  
-    // Insert C[index + 1]'s first child as the last child of C[index]
-    if (!destination->isLeaf) 
-        destination->C[(destination->nKeys) + 1] = source->C[0]; 
-  
-    // Insert first key from C[index + 1] as last key of C[index]
-    keys[index] = source->keys[0]; 
-  
-    // Move keys in C[index + 1] one step back
-    for (int i = 1; i < source->nKeys; ++i) 
-        source->keys[i - 1] = source->keys[i]; 
-  
-    // Move children one step back
-    if (!source->isLeaf) 
-    { 
-        for(int i = 1; i <= source->nKeys; ++i) 
-            source->C[i - 1] = source->C[i]; 
-    } 
-  
-    // Update key counts
-    destination->nKeys++; 
-    source->nKeys--; 
-} 
+void Node<keyType>::promoteFromNext(int index)
+{
 
-// Driver program to test removal functions
+    Node<keyType> *destination = C[index];
+    Node<keyType> *source = C[index + 1];
+
+    // keys[index] is inserted as the last key in C[index]
+    destination->keys[destination->nKeys] = keys[index];
+
+    // Insert C[index + 1]'s first child as the last child of C[index]
+    if (!destination->isLeaf)
+        destination->C[(destination->nKeys) + 1] = source->C[0];
+
+    // Insert first key from C[index + 1] as last key of C[index]
+    keys[index] = source->keys[0];
+
+    // Move keys in C[index + 1] one step back
+    for (int i = 1; i < source->nKeys; ++i)
+        source->keys[i - 1] = source->keys[i];
+
+    // Move children one step back
+    if (!source->isLeaf)
+    {
+        for(int i = 1; i <= source->nKeys; ++i)
+            source->C[i - 1] = source->C[i];
+    }
+
+    // Update key counts
+    destination->nKeys++;
+    source->nKeys--;
+}
+
+// program to test removal functions
 int main()
 {
     // Sample text data from the handout
@@ -597,6 +608,8 @@ particular implementation. For example, in a 2-3 B-tree (often simply referred t
     BTree<string> t(3); // A B-Tree with degree 3
 
     // Build tree with unique words from input
+    cout<< endl << endl;
+
     stringstream inputStream(input);
     while (!inputStream.eof())
     {
@@ -606,7 +619,7 @@ particular implementation. For example, in a 2-3 B-tree (often simply referred t
             t.insert(word);
     }
 
-    // Print current tree state 
+    // Print current tree state
     cout << "Traversal of the constucted tree is:" << endl;
     t.traverse();
     cout << endl << endl;
@@ -618,7 +631,9 @@ particular implementation. For example, in a 2-3 B-tree (often simply referred t
     {
         t.remove(words[i]);
     }
-    
+
+    cout << endl << endl;
+
     // Print new tree state
     cout << "Traversal of the new tree is:" << endl;
     t.traverse();
