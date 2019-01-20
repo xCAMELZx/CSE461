@@ -1,6 +1,8 @@
 // C++ program for B-Tree insertion 
 // For simplicity, assume order m = 2 * t
-#include<iostream>
+#include <iostream>
+#include <string>
+#include <sstream>
 using namespace std;
 
 //forward declaration
@@ -17,6 +19,38 @@ private:
     Node<keyType> **C; // An array of child pointers
     int nKeys;         // Current number of keys
     bool isLeaf;       // Is true when node is leaf. Otherwise false
+
+private:
+    // Removes key at specific index from this node if it's leaf node
+    void removeFromLeaf (int index);
+
+    // Removes key at specific index from this node if it's not a leaf node
+    void removeFromNonLeaf (int index);
+
+    // Returns the predecessor of keys[index]
+    keyType getPred(int index);
+
+    // Returns the successor of keys[index]
+    keyType getSucc(int index);
+
+    // Merges index node with the next one
+    void merge (int index);
+
+    // A function to fill child node that has less than t-1 keys after deletion
+    void fill (int index);
+
+    // Removes key k from the sub-tree rooted at this node
+    void remove ( keyType k );
+
+    // Returns the index of the first key that is >= k 
+    int findKey( keyType k );
+
+    // Promotes key from C[index - 1] to C[index]
+    void promoteFromPrev(int index);
+    
+    // Promotes key from C[index + 1] to C[index]
+    void promoteFromNext(int index); 
+
 public:
     Node(int _t, bool _isLeaf);   // Constructor
 
@@ -34,9 +68,6 @@ public:
 
     // A function to search a key in subtree rooted with this node.
     Node *search(keyType k);   // returns NULL if k is not present.
-
-
-
 
 // Make BTree friend of this so that we can access private members of this
 // class in BTree functions
@@ -67,6 +98,9 @@ public:
     // The main function that inserts a new key in this B-Tree
     //void insert(keyType k);
     void insert(keyType k);
+
+    // Removes key k from this B-tree
+    void remove(keyType k);
 };
 
 // Constructor for Node class
@@ -261,27 +295,334 @@ void Node<keyType>::splitChild(int i, Node *y)
     nKeys++;
 }
 
-// Driver program to test above functions
+// Removes key at specific index from this node if it's leaf node
+template<class keyType>
+void Node<keyType>::removeFromLeaf (int index)
+{
+    // Shift all the keys after the index position one place
+    for (int i = index+1; i < nKeys; ++i)
+        keys[i-1] = keys[i];
+    // Reduce the count of keys
+    nKeys--;
+}
+
+// Removes key at specific index from this node if it's not a leaf node
+template<class keyType>
+void Node<keyType>::removeFromNonLeaf (int index)
+{
+    keyType k = keys[index];
+    // If the child (C[index]) that precedes k has at least t keys,
+    // find the predecessor 'pred' of k which is the rightmost key of
+    // the subtree rooted at
+    // C[index]. Replace k by pred and delete the rightmost key, which
+    // is at a leaf ( calling remove() recursively)
+    if (C[index]->nKeys >= t) {
+        keyType pred = getPred(index);
+        keys[index] = pred;
+        C[index]->remove(pred);
+    }
+    // If the child C[index] has less that t keys, examine C[index+1].
+    // If C[index+1] has atleast t keys, find the successor 'succ' of k in
+    // the subtree rooted at C[idx+1]
+    // Replace k by succ and remove succ in C[index+1]
+    else if (C[index+1]->nKeys >= t) {
+        keyType succ = getSucc(index);
+        keys[index] = succ;
+        C[index+1]->remove(succ);
+    }
+    // If both C[index] and C[index+1] has less that t keys,merge k and all of C[index+1]
+    // into C[index]
+    // Now C[index] contains 2t-1 keys
+    // Free C[index+1] and remove k from C[index]
+    else
+    {
+        merge(index);
+        // remove k from C[index]
+        C[index]->remove(k);
+    }
+    return;
+}
+
+// Get predecessor of keys[index]
+template<class keyType>
+keyType Node<keyType>::getPred(int index)
+{
+    // Keep moving to the rightmost node until we reach a leaf
+    Node<keyType> *cur=C[index];
+    while (!cur->isLeaf)
+        cur = cur->C[cur->nKeys]; // rightmost child pointer
+    // cur now points to a leaf node
+    // Return the last key (rightmost, at position cur->nKeys-1) of the leaf
+    return cur->keys[cur->nKeys - 1];
+}
+
+//Get successor of keys[index]
+template<class keyType>
+keyType Node<keyType>::getSucc(int index)
+{
+    // Keep moving the leftmost node starting from C[index+1] until we reach a leaf
+    Node<keyType> *cur = C[index+1];
+    while (!cur->isLeaf)
+        cur = cur->C[0];
+    // Return the first key (leftmost) of the leaf
+    if (cur->nKeys > 0)
+        return cur->keys[0];
+    else
+        return NULL;
+}
+
+// Merges the nodes
+template<class keyType>
+void Node<keyType>::merge (int index)
+{
+    Node<keyType> *child = C[index];
+    Node<keyType> *sibling = C[index+1];
+    // Pulling a key from the current node and inserting it into (t-1)th
+    // position of C[index]
+    child->keys[t-1] = keys[index];
+    // Copying the keys from C[index+1] to C[index] at the end
+    for (int i=0; i < nKeys; ++i)
+        child->keys[i+t] = sibling->keys[i];
+    // Copying the child pointers from C[index+1] to C[index]
+    if (!child->isLeaf) {
+        for(int i=0; i<=sibling->nKeys; ++i)
+            child->C[i + t] = sibling->C[i];
+    }
+    // Moving all keys after index in the current node one step before -
+    // to fill the gap created by moving keys[index] to C[index]
+    for (int i = index + 1; i < nKeys; ++i)
+        keys[i - 1] = keys[i];
+    // Similarly, move children after index + 1
+    for (int i = index + 2; i <= nKeys; ++i)
+        C[i - 1] = C[i];
+
+    // Update sizes
+    child->nKeys += sibling->nKeys + 1;
+    nKeys--;
+
+    // Freeing the memory occupied by sibling
+    delete(sibling);
+    return;
+}
+
+// A function to fill child node that has less than t-1 keys after deletion
+template<class keyType>
+void Node<keyType>::fill (int index)
+{
+    // If the previous child(C[index-1]) has more than t-1 keys, promote a key
+    // from that child
+    if (index!=0 && C[index-1]->nKeys >= t)
+        promoteFromPrev(index);
+    // If the next child(C[index+1]) has more than t-1 keys, promote a key
+    // from that child
+    else if (index!=nKeys && C[index+1]->nKeys>=t)
+        promoteFromNext(index);
+    // Merge C[index] with its sibling
+    // If C[index] is the last child, merge it with with its previous sibling
+    // Otherwise merge it with its next sibling
+    else
+    {
+        if (index != nKeys)
+            merge(index);
+        else
+            merge(index-1);
+    }
+    return;
+}
+
+// Returns the index of the first key that is >= k 
+template<class keyType>
+int Node<keyType>::findKey(keyType k) 
+{ 
+    int index = 0; 
+    while (index < nKeys && keys[index] < k) 
+    {
+        ++index; 
+    }
+    return index; 
+} 
+
+// Removes key k from the sub-tree rooted at this node
+template<class keyType>
+void Node<keyType>::remove ( keyType k )
+{
+    int index = findKey(k);
+    // The key to be removed is present in this node
+    if (index < nKeys && keys[index] == k)
+    {
+        if (isLeaf) // The node is a leaf
+            removeFromLeaf(index);
+        else // The node is an internal node
+            removeFromNonLeaf(index);
+    } else { // The key is not in the node, but in a descendant
+        // If this node is a leaf node, then the key is not present in tree
+        if (isLeaf)
+        {
+            cout << "The key "<< k <<" not found in the tree\n";
+            return;
+        }
+        // The key to be removed is present in the sub-tree rooted at this node
+        // The flag isLast indicates whether the key is present in the sub-tree rooted
+        // at the last child of this node
+        bool isLast = ( (index==nKeys)? true : false );
+        // If the child where the key is supposed to exist is underflow,
+        // we fill that child
+        if (C[index]->nKeys < t)
+            fill(index); // call a function to fill the child
+        // If the last child has been merged, it must have merged with the previous
+        // child and so we recurse on the (index-1)th child. Else, we recurse on the
+        // (index)th child which now has atleast t keys
+        if (isLast && index > nKeys)
+            C[index-1]->remove(k);
+        else
+            C[index]->remove(k);
+    }
+    return;
+}
+
+// Removes key k from this B-tree
+template <class keyType>
+void BTree<keyType>::remove(keyType k)
+{
+    if (!root) {
+        cout << "Tree empty\n";
+        return;
+    }
+    // Call the remove function for root node
+    root->remove(k);
+    // If the root node has 0 keys, make its first child as the new root
+    // if it has a child, otherwise set root as NULL
+    if (root->nKeys==0) {
+        Node<keyType> *tmp = root;
+        if (root->isLeaf)
+            root = NULL;
+        else
+            root = root->C[0];
+        // Free the old root
+        delete tmp;
+    }
+    return;
+}
+
+// Promotes key from C[index-1] to C[index]
+template<class keyType>
+void Node<keyType>::promoteFromPrev(int index) 
+{ 
+  
+    Node<keyType> *destination = C[index]; 
+    Node<keyType> *source = C[index - 1]; 
+  
+    // Greatest key from C[index - 1] goes to parent
+    // key[index - 1] from parent goes as first to C[index]
+  
+    // Moving all keys in C[index] one step forward
+    for (int i = destination->nKeys - 1; i >= 0; --i) 
+        destination->keys[i + 1] = destination->keys[i]; 
+  
+    // If C[index] is not a leaf, move all its children one step forward
+    if (!destination->isLeaf) 
+    { 
+        for (int i = destination->nKeys; i >= 0; --i) 
+            destination->C[i + 1] = destination->C[i]; 
+    } 
+  
+    // Set C[index] first key to key[index - 1]
+    destination->keys[0] = keys[index - 1]; 
+  
+    // Set C[index] first child to last child of C[index - 1]
+    if(!destination->isLeaf) 
+        destination->C[0] = source->C[source->nKeys]; 
+  
+    // Move the greatest key from C[index - 1] to the parent
+    keys[index - 1] = source->keys[source->nKeys - 1]; 
+  
+    // Update key counts
+    destination->nKeys++; 
+    source->nKeys--; 
+} 
+  
+// Promotes key from C[index + 1] to C[index]
+template<class keyType>
+void Node<keyType>::promoteFromNext(int index) 
+{ 
+  
+    Node<keyType> *destination = C[index]; 
+    Node<keyType> *source = C[index + 1]; 
+  
+    // keys[index] is inserted as the last key in C[index] 
+    destination->keys[destination->nKeys] = keys[index]; 
+  
+    // Insert C[index + 1]'s first child as the last child of C[index]
+    if (!destination->isLeaf) 
+        destination->C[(destination->nKeys) + 1] = source->C[0]; 
+  
+    // Insert first key from C[index + 1] as last key of C[index]
+    keys[index] = source->keys[0]; 
+  
+    // Move keys in C[index + 1] one step back
+    for (int i = 1; i < source->nKeys; ++i) 
+        source->keys[i - 1] = source->keys[i]; 
+  
+    // Move children one step back
+    if (!source->isLeaf) 
+    { 
+        for(int i = 1; i <= source->nKeys; ++i) 
+            source->C[i - 1] = source->C[i]; 
+    } 
+  
+    // Update key counts
+    destination->nKeys++; 
+    source->nKeys--; 
+} 
+
+// Driver program to test removal functions
 int main()
 {
-    BTree<int> t(3); // A B-Tree with minium degree 3, order 6
-    t.insert(10);
-    t.insert(20);
-    t.insert(5);
-    t.insert(6);
-    t.insert(12);
-    t.insert(30);
-    t.insert(7);
-    t.insert(17);
+    // Sample text data from the handout
+    string input = "In computer science, a B-tree is a self-balancing tree data structure that maintains \
+sorted data and allows searches, sequential access, insertions, and deletions in \
+logarithmic time. The B-tree is a generalization of a binary search tree in that a node \
+can have more than two children. Unlike self-balancing binary search trees, the B-tree is \
+well suited for storage systems that read and write relatively large blocks of data, such \
+as discs. It is commonly used in databases and file systems. In B-trees, internal \
+(non-leaf) nodes can have a variable number of child nodes within some pre-defined \
+range. When data is inserted or removed from a node, its number of child nodes changes. \
+In order to maintain the pre-defined range, internal nodes may be joined or split. Because \
+a range of child nodes is permitted, B-trees do not need re-balancing as frequently as \
+other self-balancing search trees, but may waste some space, since nodes are not entirely \
+full. The lower and upper bounds on the number of child nodes are typically fixed for a \
+particular implementation. For example, in a 2-3 B-tree (often simply referred to as a \
+2-3 tree), each internal node may have only 2 or 3 child nodes.";
 
-    cout << "Traversal of the constucted tree is ";
+    BTree<string> t(3); // A B-Tree with degree 3
+
+    // Build tree with unique words from input
+    stringstream inputStream(input);
+    while (!inputStream.eof())
+    {
+        string word;
+        inputStream >> word;
+        if (t.search(word) == NULL)
+            t.insert(word);
+    }
+
+    // Print current tree state 
+    cout << "Traversal of the constucted tree is:" << endl;
     t.traverse();
+    cout << endl << endl;
 
-    int k = 6;
-    (t.search(k) != NULL)? cout << "\nPresent" : cout << "\nNot Present";
-
-    k = 15;
-    (t.search(k) != NULL)? cout << "\nPresent" : cout << "\nNot Present";
+    // Remove fixed words
+    string words[15] = {"B-trees,", "nodes.", "node,", "range.", "tree),", "trees,", "changes.", "space,",
+        "data,", "example,", "data,", "example,", "searches,", "range,", "insertions,"};
+    for (int i = 0; i < 15; i++)
+    {
+        t.remove(words[i]);
+    }
+    
+    // Print new tree state
+    cout << "Traversal of the new tree is:" << endl;
+    t.traverse();
+    cout << endl << endl;
 
     return 0;
 }
