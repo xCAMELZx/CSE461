@@ -1,0 +1,120 @@
+Program Start
+Reader Thread-21: Started
+Reader Thread-10: Started
+Reader Thread-4: Started
+Reader Thread-14: Started
+Reader Thread-20: Started
+Reader Thread-16: Started
+Reader Thread-5: Started
+Reader Thread-8: Started
+Reader Thread-9: Started
+Reader Thread-7: Started
+Reader Thread-19: Started
+Writer Thread-1: Started
+Reader Thread-15: Started
+Reader Thread-11: Started
+Writer Thread-0: Started
+Reader Thread-13: Started
+Reader Thread-17: Started
+Reader Thread-6: Started
+Writer Thread-2: Started
+Reader Thread-22: Started
+Reader Thread-12: Started
+Reader Thread-18: Started
+Reader Thread-3: Started
+Thread-7 is reading ...Thread-15 is reading ... Counter value : 0
+Thread-5 is reading ... Counter value : 0
+Thread-13 is reading ... Counter value : 0
+Thread-10 is reading ... Counter value : 0
+Thread-20 is reading ... Counter value : 0
+Thread-8 is reading ... Counter value : 0
+Thread-18 is reading ... Counter value : 0
+Thread-17 is reading ... Counter value : 0
+Thread-22 is reading ... Counter value : 0
+Thread-6 is reading ... Counter value : 0
+Thread-19 is reading ... Counter value : 0
+Thread-3 is reading ... Counter value : 0
+Thread-14 is reading ... Counter value : 0
+Thread-9 is reading ... Counter value : 0
+Thread-16 is reading ... Counter value : 0
+Thread-21 is reading ... Counter value : 0
+Thread-4 is reading ... Counter value : 0
+Thread-12 is reading ... Counter value : 0
+Thread-11 is reading ... Counter value : 0
+ Counter value : 0
+Thread-1 Writing...  Counter value : 1
+Thread-0 Writing...  Counter value : 2
+Thread-2 Writing...  Counter value : 3
+Thread-4 is reading ... Counter value : 3
+Thread-0 Writing...  Counter value : 4
+Thread-5 is reading ... Counter value : 4
+Thread-19 is reading ... Counter value : 4
+Thread-8 is reading ... Counter value : 4
+Thread-9 is reading ... Counter value : 4
+Thread-14 is reading ... Counter value : 4
+Thread-9 is reading ... Counter value : 4
+Thread-13 is reading ... Counter value : 4
+Thread-2 Writing...  Counter value : 5
+Thread-19 is reading ... Counter value : 5
+Thread-18 is reading ... Counter value : 5
+Thread-17 is reading ... Counter value : 5
+Thread-3 is reading ... Counter value : 5
+Thread-20 is reading ... Counter value : 5
+Thread-11 is reading ... Counter value : 5
+Thread-15 is reading ... Counter value : 5
+Thread-6 is reading ... Counter value : 5
+Thread-1 Writing...  Counter value : 6
+Thread-13 is reading ... Counter value : 6
+Thread-19 is reading ... Counter value : 6
+Thread-17 is reading ... Counter value : 6
+Thread-8 is reading ... Counter value : 6
+Thread-16 is reading ... Counter value : 6
+Thread-10 is reading ... Counter value : 6
+Thread-14 is reading ... Counter value : 6
+Thread-3 is reading ... Counter value : 6
+Thread-16 is reading ... Counter value : 6
+Thread-22 is reading ... Counter value : 6
+Thread-3 is reading ... Counter value : 6
+Thread-2 Writing...  Counter value : 7
+Thread-12 is reading ... Counter value : 7
+Thread-21 is reading ... Counter value : 7
+Thread-7 is reading ... Counter value : 7
+Thread-17 is reading ... Counter value : 7
+Thread-4 is reading ... Counter value : 7
+Thread-9 is reading ... Counter value : 7
+Thread-7 is reading ... Counter value : 7
+Thread-5 is reading ... Counter value : 7
+Thread-11 is reading ... Counter value : 7
+Thread-2 Writing...  Counter value : 8
+Thread-1 Writing...  Counter value : 9
+Thread-7 is reading ... Counter value : 9
+Thread-16 is reading ... Counter value : 9
+Thread-0 Writing...  Counter value : 10
+Thread-11 is reading ... Counter value : 10
+Thread-0 Writing...  Counter value : 11
+Thread-20 is reading ... Counter value : 11
+Thread-0 Writing...  Counter value : 12
+Thread-21 is reading ... Counter value : 12
+Thread-6 is reading ... Counter value : 12
+Thread-9 is reading ... Counter value : 12
+Thread-18 is reading ... Counter value : 12
+Thread-13 is reading ... Counter value : 12
+Thread-2 Writing...  Counter value : 13
+Thread-3 is reading ... Counter value : 13
+Thread-8 is reading ... Counter value : 13
+Thread-8 is reading ... Counter value : 13
+Thread-14 is reading ... Counter value : 13
+Thread-22 is reading ... Counter value : 13
+Thread-15 is reading ... Counter value : 13
+Thread-20 is reading ... Counter value : 13
+Thread-19 is reading ... Counter value : 13
+Thread-8 is reading ... Counter value : 13
+Thread-5 is reading ... Counter value : 13
+Thread-14 is reading ... Counter value : 13
+Thread-13 is reading ... Counter value : 13
+Thread-10 is reading ... Counter value : 13
+Thread-7 is reading ... Counter value : 13
+Thread-11 is reading ... Counter value : 13
+Thread-21 is reading ... Counter value : 13
+Thread-16 is reading ... Counter value : 13
+Thread-18 is reading ... Counter value : 13
