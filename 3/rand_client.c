@@ -7,9 +7,7 @@
 #include "rand.h"
 
 
-double
-radn_prog_1(char *host)
-{
+double radn_prog_1(char *host) {
 	CLIENT *clnt;
 	void  *result_1;
 	long  initialize_random_1_arg;
@@ -35,6 +33,8 @@ radn_prog_1(char *host)
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
+
+
 	return *result_2;
 }
 
@@ -51,11 +51,11 @@ main (int argc, char *argv[])
 	host = argv[1];
 	radn_prog_1 (host);
 	double x;
-			int i;
-			printf("\n twenty random numbers ");
-			for (i = 0; i < 20; ++i){
-				x = radn_prog_1 (host);
-				printf(" %f, ", x);
-			}
+	int i;
+	printf("\n twenty random numbers ");
+	for (i = 0; i < 20; ++i){
+		x = radn_prog_1 (host);
+		printf(" %f, ", x);
+	}
 exit (0);
 }

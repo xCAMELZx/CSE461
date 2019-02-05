@@ -5,7 +5,7 @@
  */
 
 #include "rand.h"
-#include "time.h"
+#include <time.h>
 
 void *
 initialize_random_1_svc(long *argp, struct svc_req *rqstp)
@@ -24,9 +24,8 @@ get_next_random_1_svc(void *argp, struct svc_req *rqstp)
 {
 	static double  result;
 
-	srand(time(NULL));
-	result += rand();
-	//if (result >= 1.0)
+	result += 0.31
+	if (result >= 1.0)
 		result -= 0.713;
 
 	return &result;
