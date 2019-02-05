@@ -32,10 +32,10 @@ radn_prog_1(char *host)
 	if (result_2 == (double *) NULL) {
 		clnt_perror (clnt, "call failed");
 	}
-	return *result_2;
 #ifndef	DEBUG
 	clnt_destroy (clnt);
 #endif	 /* DEBUG */
+	return *result_2;
 }
 
 
