@@ -59,7 +59,7 @@ main (int argc, char *argv[])
 	printf("\n Twenty Random Numbers"); 
 	for ( i = 0; i<20; ++i){
 		x = rand_prog_1(host);
-		printf(" %f, ", x); 
+		printf(" %f\n, ", x); 
 	}
 exit (0);
 }
