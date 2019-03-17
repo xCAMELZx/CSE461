@@ -20,7 +20,7 @@ static void
 rand_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
 	union {
-		long initialize_random_1_arg;
+		params get_next_random_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -31,15 +31,9 @@ rand_prog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		(void) svc_sendreply (transp, (xdrproc_t) xdr_void, (char *)NULL);
 		return;
 
-	case INITIALIZE_RANDOM:
-		_xdr_argument = (xdrproc_t) xdr_long;
-		_xdr_result = (xdrproc_t) xdr_void;
-		local = (char *(*)(char *, struct svc_req *)) initialize_random_1_svc;
-		break;
-
 	case GET_NEXT_RANDOM:
-		_xdr_argument = (xdrproc_t) xdr_void;
-		_xdr_result = (xdrproc_t) xdr_double;
+		_xdr_argument = (xdrproc_t) xdr_params;
+		_xdr_result = (xdrproc_t) xdr_int;
 		local = (char *(*)(char *, struct svc_req *)) get_next_random_1_svc;
 		break;
 

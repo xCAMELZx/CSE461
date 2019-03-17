@@ -6,21 +6,15 @@
 
 #include "rand.h"
 
-void *
-initialize_random_1_svc(long *argp, struct svc_req *rqstp)
+int *
+get_next_random_1_svc(params *argp, struct svc_req *rqstp)
 {
-	static char * result;
-	return (void *) &result;
-}
+	static int  result;
+	int xl, xr; 
 
-double *
-get_next_random_1_svc(void *argp, struct svc_req *rqstp)
-{
-	static double  result;
-	result +=0.31;
-	if(result >= 1.0) 
-		result -= 0.713;
+	xl = argp->xleft;
+	xr = argp->xright;
+	result = (11 * xl + 13 * result + 5 * xr ) % 31;
+
 	return &result;
 }
-
-
